@@ -3,7 +3,7 @@ spring:
     # >=6.x com.mysql.cj.jdbc.Driver
     # <=5.x com.mysql.jdbc.Driver
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/content_center
+    url: jdbc:mysql://localhost:3306/content_center?characterEncoding=utf8&useSSL=false
     hikari:
       username: root
       password: 123456
