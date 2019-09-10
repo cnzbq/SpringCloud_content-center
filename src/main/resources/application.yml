@@ -7,5 +7,14 @@ spring:
     hikari:
       username: root
       password: 123456
+  cloud:
+    nacos:
+      discovery:
+        # 指定nacos server 地址  注意：地址前面不要加协议，直接指定IP/域名就可以了
+        server-addr: localhost:8848
+  application:
+    # 服务名称尽量用中划线“-” ，不要使用下划线“_”，更不要用特殊字符
+    name: content-center
+
 server:
   port: 8010
