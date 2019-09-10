@@ -17,7 +17,7 @@
     <properties>
         <java.version>11</java.version>
     </properties>
-    
+
     <dependencyManagement>
         <dependencies>
             <!-- 整合Spring Cloud -->
