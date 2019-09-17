@@ -2,6 +2,7 @@ package cn.zbq.springcloud.contentcenter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 import tk.mybatis.spring.annotation.MapperScan;
@@ -22,10 +23,11 @@ public class ContentCenterApplication {
     /**
      * 在spring容器中创建一个对象，类型为RestTemplate，名称/id为restTemplate
      * <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
-     *
+     * @LoadBalanced 整合ribbon必须添加该注解
      * @return RestTemplate
      */
     @Bean
+    @LoadBalanced
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
