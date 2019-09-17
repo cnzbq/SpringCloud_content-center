@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 /**
  * 分享服务
@@ -42,11 +44,14 @@ public class ShareService {
         Integer userId = share.getUserId();
         // 拿到用户中心所有实例
         List<ServiceInstance> userCenterInstanceList = discoveryClient.getInstances("user-center");
-        String url = userCenterInstanceList.stream()
+        // 所有用户中心实例的请求地址
+        List<String> list = userCenterInstanceList.stream()
                 // 数据变换
                 .map(serviceInstance -> serviceInstance.getUri() + "/users/{id}")
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("当前没有实例"));
+                .collect(Collectors.toList());
+        // 获取随机的下标
+        int i = ThreadLocalRandom.current().nextInt(list.size());
+        String url = list.get(i);
         log.info("请求的目标地址{}", url);
         // 调用用户微服务的 /users/{userId}
         UserDTO userDTO = this.restTemplate.getForObject(
