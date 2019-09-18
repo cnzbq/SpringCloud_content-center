@@ -10,8 +10,8 @@ import ribbonconfiguration.RibbonConfiguration;
  * @author Zbq
  * @since 2019/9/18 22:37
  */
-@Configuration
-@RibbonClient(name = "user-center", configuration = RibbonConfiguration.class)
+/*@Configuration
+@RibbonClient(name = "user-center", configuration = RibbonConfiguration.class)*/
 public class UserCenterRibbonConfiguration {
 
 }

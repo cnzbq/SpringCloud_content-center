@@ -18,3 +18,8 @@ spring:
 
 server:
   port: 8010
+
+# 实现通过ribbon在调用 user-center 时使用com.netflix.loadbalancer.RandomRule 规则
+user-center:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
