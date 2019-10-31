@@ -1,6 +1,6 @@
 package cn.zbq.springcloud.contentcenter.configuration;
 
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
+import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.context.annotation.Configuration;
 import ribbonconfiguration.RibbonConfiguration;
 
@@ -10,8 +10,8 @@ import ribbonconfiguration.RibbonConfiguration;
  * @author Zbq
  * @since 2019/9/18 22:37
  */
-/*@Configuration
-@RibbonClient(name = "user-center", configuration = RibbonConfiguration.class)*/
+@Configuration
+@RibbonClients(defaultConfiguration =  RibbonConfiguration.class)
 public class UserCenterRibbonConfiguration {
 
 }

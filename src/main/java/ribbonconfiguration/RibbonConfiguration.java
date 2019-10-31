@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * TODO
+ * Ribbon配置类
  *
  * @author Zbq
  * @since 2019/9/18 22:39
