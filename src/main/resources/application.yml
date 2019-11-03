@@ -14,6 +14,11 @@ spring:
         server-addr: 117.50.105.135:15098
         # 集群名称
         cluster-name: BJ
+        metadata:
+          # 自己这个实例的版本
+          version: v1
+          # 允许调用的提供者版本
+          target-version: v1
   application:
     # 服务名称尽量用中划线“-” ，不要使用下划线“_”，更不要用特殊字符
     name: content-center
