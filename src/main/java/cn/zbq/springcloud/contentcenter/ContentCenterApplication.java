@@ -1,5 +1,6 @@
 package cn.zbq.springcloud.contentcenter;
 
+import cn.zbq.springcloud.contentcenter.configuration.GlobalFeignConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -13,7 +14,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 // 扫描哪些包里面的接口
 @MapperScan("cn.zbq.springcloud")
-@EnableFeignClients
+@EnableFeignClients(defaultConfiguration = GlobalFeignConfiguration.class)
 @SpringBootApplication
 public class ContentCenterApplication {
 

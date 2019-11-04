@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
  * @author Zbq
  * @since 2019/11/4 20:34
  */
-public class UserCenterFeignConfiguration {
+public class GlobalFeignConfiguration {
     @Bean
     public Logger.Level logConfig() {
         // 打印feign所有请求的细节
