@@ -35,3 +35,6 @@ ribbon:
   eager-load:
     enabled: true  # 开启饥饿加载
     clients: user-center  # 为哪些微服务开启饥饿加载（细粒度配置）
+logging:
+  level:
+    cn.zbq.springcloud.contentcenter.feignclient.UserCenterFeignClient: debug
