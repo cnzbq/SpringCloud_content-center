@@ -14,7 +14,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 // 扫描哪些包里面的接口
 @MapperScan("cn.zbq.springcloud")
-@EnableFeignClients(defaultConfiguration = GlobalFeignConfiguration.class)
+@EnableFeignClients//(defaultConfiguration = GlobalFeignConfiguration.class)
 @SpringBootApplication
 public class ContentCenterApplication {
 
