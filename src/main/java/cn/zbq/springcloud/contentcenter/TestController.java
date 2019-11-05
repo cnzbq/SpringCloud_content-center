@@ -1,7 +1,9 @@
 package cn.zbq.springcloud.contentcenter;
 
 import cn.zbq.springcloud.contentcenter.dao.content.ShareMapper;
+import cn.zbq.springcloud.contentcenter.domain.dto.user.UserDTO;
 import cn.zbq.springcloud.contentcenter.domain.entity.content.Share;
+import cn.zbq.springcloud.contentcenter.feignclient.TestUserCenterFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -52,5 +54,13 @@ public class TestController {
         // DiscoveryClient 由spring提供
         // consul/eureka/zookeeper...
         return this.discoveryClient.getInstances("user-center");
+    }
+
+    @Autowired
+    private TestUserCenterFeignClient testUserCenterFeignClient;
+
+    @GetMapping("user-get")
+    public UserDTO query(UserDTO userDTO) {
+        return testUserCenterFeignClient.query(userDTO);
     }
 }

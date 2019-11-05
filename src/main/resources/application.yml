@@ -22,7 +22,9 @@ spring:
   application:
     # 服务名称尽量用中划线“-” ，不要使用下划线“_”，更不要用特殊字符
     name: content-center
-
+  main:
+    # 允许同名（feign client 中name同名）
+    allow-bean-definition-overriding: true
 server:
   port: 8010
 
