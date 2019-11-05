@@ -40,6 +40,7 @@ ribbon:
 logging:
   level:
     cn.zbq.springcloud.contentcenter.feignclient.UserCenterFeignClient: debug
+    cn.zbq.springcloud.contentcenter.feignclient.TestBaiduFeignClient: debug
 feign:
   client:
     config:

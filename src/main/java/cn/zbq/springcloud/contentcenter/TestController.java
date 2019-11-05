@@ -3,6 +3,7 @@ package cn.zbq.springcloud.contentcenter;
 import cn.zbq.springcloud.contentcenter.dao.content.ShareMapper;
 import cn.zbq.springcloud.contentcenter.domain.dto.user.UserDTO;
 import cn.zbq.springcloud.contentcenter.domain.entity.content.Share;
+import cn.zbq.springcloud.contentcenter.feignclient.TestBaiduFeignClient;
 import cn.zbq.springcloud.contentcenter.feignclient.TestUserCenterFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -62,5 +63,13 @@ public class TestController {
     @GetMapping("user-get")
     public UserDTO query(UserDTO userDTO) {
         return testUserCenterFeignClient.query(userDTO);
+    }
+
+    @Autowired
+    private TestBaiduFeignClient testBaiduFeignClient;
+
+    @GetMapping("baidu")
+    public String getBaiduIndex(){
+        return testBaiduFeignClient.getIndex();
     }
 }
