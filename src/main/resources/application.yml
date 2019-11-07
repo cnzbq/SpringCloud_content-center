@@ -19,6 +19,10 @@ spring:
           version: v1
           # 允许调用的提供者版本
           target-version: v1
+    sentinel:
+      transport:
+        # 指定sentinel控制台的地址
+        dashboard: localhost:8080
   application:
     # 服务名称尽量用中划线“-” ，不要使用下划线“_”，更不要用特殊字符
     name: content-center
