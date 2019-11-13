@@ -20,6 +20,9 @@ spring:
           # 允许调用的提供者版本
           target-version: v1
     sentinel:
+      filter:
+        # 关闭对Spring MVC 端点的保护
+        enabled: false
       transport:
         # 指定sentinel控制台的地址
         dashboard: localhost:8080
