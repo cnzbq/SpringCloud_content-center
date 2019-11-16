@@ -1,6 +1,7 @@
 package cn.zbq.springcloud.contentcenter;
 
-import cn.zbq.springcloud.contentcenter.configuration.GlobalFeignConfiguration;
+import cn.zbq.springcloud.contentcenter.exception.RestTemplateException;
+import com.alibaba.cloud.sentinel.annotation.SentinelRestTemplate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -26,10 +27,15 @@ public class ContentCenterApplication {
     /**
      * 在spring容器中创建一个对象，类型为RestTemplate，名称/id为restTemplate
      * <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
-     * @LoadBalanced 整合ribbon必须添加该注解
+     *
      * @return RestTemplate
+     * @LoadBalanced 整合ribbon必须添加该注解
      */
     @Bean
+    @SentinelRestTemplate(blockHandlerClass = RestTemplateException.class,
+            blockHandler = "block",
+            fallbackClass = RestTemplateException.class,
+            fallback = "fallback")
     @LoadBalanced
     public RestTemplate restTemplate() {
         return new RestTemplate();
