@@ -5,6 +5,8 @@ import cn.zbq.springcloud.contentcenter.domain.dto.user.UserDTO;
 import cn.zbq.springcloud.contentcenter.domain.entity.content.Share;
 import cn.zbq.springcloud.contentcenter.feignclient.TestBaiduFeignClient;
 import cn.zbq.springcloud.contentcenter.feignclient.TestUserCenterFeignClient;
+import cn.zbq.springcloud.contentcenter.sentineltest.TestControllerBlockHandlerClass;
+import cn.zbq.springcloud.contentcenter.sentineltest.TestControllerFallbackHandlerClass;
 import com.alibaba.csp.sentinel.Entry;
 import com.alibaba.csp.sentinel.SphU;
 import com.alibaba.csp.sentinel.Tracer;
@@ -158,4 +160,22 @@ public class TestController {
             ContextUtil.exit();
         }
     }
+
+    /**
+     * blockHandler 指定异常处理的方法
+     */
+    @RequestMapping("test-sentinel-resource")
+    @SentinelResource(value = "test-sentinel-api",
+            blockHandler = "block",
+            blockHandlerClass = TestControllerBlockHandlerClass.class,
+            fallback = "fallback",
+            fallbackClass = TestControllerFallbackHandlerClass.class
+    )
+    public String testSentinelResource(@RequestParam(required = false) String a) {
+        if (StringUtils.isBlank(a)) {
+            throw new IllegalArgumentException("a cannot be blank");
+        }
+        return a;
+    }
+
 }
