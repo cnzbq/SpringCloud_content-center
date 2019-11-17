@@ -91,6 +91,12 @@
 <!--            <groupId>com.alibaba.csp</groupId>-->
 <!--            <artifactId>sentinel-transport-simple-http</artifactId>-->
 <!--        </dependency>-->
+        <!-- 规则持久化 -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-extension</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
