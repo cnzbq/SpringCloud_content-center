@@ -49,6 +49,9 @@ logging:
     cn.zbq.springcloud.contentcenter.feignclient.UserCenterFeignClient: debug
     cn.zbq.springcloud.contentcenter.feignclient.TestBaiduFeignClient: debug
 feign:
+  sentinel:
+    # 为feign 整合sentinel
+    enabled: true
   client:
     config:
       # 全局日志级别配置
