@@ -21,45 +21,45 @@ spring:
           target-version: v1
     sentinel:
       filter:
-        # 关闭对Spring MVC 端点的保护
-        enabled: false
+        # 打开/关闭对Spring MVC 端点的保护
+        enabled: true
       transport:
         # 指定sentinel控制台的地址
         dashboard: localhost:8080
-      datasource:
-        # 名称随意
-        flow:
-          nacos:
-            server-addr: 117.50.105.135:15098
-            dataId: ${spring.application.name}-flow-rules
-            groupId: SENTINEL_GROUP
-            # 规则类型，取值见：
-            # org.springframework.cloud.alibaba.sentinel.datasource.RuleType
-            rule-type: flow
-        degrade:
-          nacos:
-            server-addr: 117.50.105.135:15098
-            dataId: ${spring.application.name}-degrade-rules
-            groupId: SENTINEL_GROUP
-            rule-type: degrade
-        system:
-          nacos:
-            server-addr: 117.50.105.135:15098
-            dataId: ${spring.application.name}-system-rules
-            groupId: SENTINEL_GROUP
-            rule-type: system
-        authority:
-          nacos:
-            server-addr: 117.50.105.135:15098
-            dataId: ${spring.application.name}-authority-rules
-            groupId: SENTINEL_GROUP
-            rule-type: authority
-        param-flow:
-          nacos:
-            server-addr: 117.50.105.135:15098
-            dataId: ${spring.application.name}-param-flow-rules
-            groupId: SENTINEL_GROUP
-            rule-type: param-flow
+#      datasource:
+#        # 名称随意
+#        flow:
+#          nacos:
+#            server-addr: 117.50.105.135:15098
+#            dataId: ${spring.application.name}-flow-rules
+#            groupId: SENTINEL_GROUP
+#            # 规则类型，取值见：
+#            # org.springframework.cloud.alibaba.sentinel.datasource.RuleType
+#            rule-type: flow
+#        degrade:
+#          nacos:
+#            server-addr: 117.50.105.135:15098
+#            dataId: ${spring.application.name}-degrade-rules
+#            groupId: SENTINEL_GROUP
+#            rule-type: degrade
+#        system:
+#          nacos:
+#            server-addr: 117.50.105.135:15098
+#            dataId: ${spring.application.name}-system-rules
+#            groupId: SENTINEL_GROUP
+#            rule-type: system
+#        authority:
+#          nacos:
+#            server-addr: 117.50.105.135:15098
+#            dataId: ${spring.application.name}-authority-rules
+#            groupId: SENTINEL_GROUP
+#            rule-type: authority
+#        param-flow:
+#          nacos:
+#            server-addr: 117.50.105.135:15098
+#            dataId: ${spring.application.name}-param-flow-rules
+#            groupId: SENTINEL_GROUP
+#            rule-type: param-flow
   application:
     # 服务名称尽量用中划线“-” ，不要使用下划线“_”，更不要用特殊字符
     name: content-center

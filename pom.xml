@@ -87,20 +87,21 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba.csp</groupId>-->
-<!--            <artifactId>sentinel-transport-simple-http</artifactId>-->
-<!--        </dependency>-->
+        <!-- 与控制台通讯包 -->
+<!--        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-simple-http</artifactId>
+        </dependency>-->
         <!-- 规则持久化 拉（pull）模式 -->
-        <dependency>
+<!--        <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-extension</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- 规则持久化 推（push）模式-->
-        <dependency>
+<!--        <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
-        </dependency>
+        </dependency>-->
 
     </dependencies>
 
