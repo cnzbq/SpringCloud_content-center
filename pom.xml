@@ -91,10 +91,15 @@
 <!--            <groupId>com.alibaba.csp</groupId>-->
 <!--            <artifactId>sentinel-transport-simple-http</artifactId>-->
 <!--        </dependency>-->
-        <!-- 规则持久化 -->
+        <!-- 规则持久化 拉（pull）模式 -->
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-extension</artifactId>
+        </dependency>
+        <!-- 规则持久化 推（push）模式-->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
 
     </dependencies>
