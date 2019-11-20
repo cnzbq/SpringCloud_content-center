@@ -1,6 +1,7 @@
 package cn.zbq.springcloud.contentcenter.service.content;
 
 import cn.zbq.springcloud.contentcenter.dao.content.ShareMapper;
+import cn.zbq.springcloud.contentcenter.domain.dto.content.ShareAuditDTO;
 import cn.zbq.springcloud.contentcenter.domain.dto.content.ShareDTO;
 import cn.zbq.springcloud.contentcenter.domain.dto.user.UserDTO;
 import cn.zbq.springcloud.contentcenter.domain.entity.content.Share;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Objects;
 
 /**
  * 分享服务
@@ -53,5 +56,26 @@ public class ShareService {
                 "http://localhost:8080/users/{id}", String.class, 1
         );
         System.out.println(forObject);
+    }
+
+    public Share auditById(Integer id, ShareAuditDTO auditDTO) {
+
+        // 1.查询share是否存在，不存在或者当前的audit_status != NOT_YET,那么抛异常
+        Share share = this.shareMapper.selectByPrimaryKey(id);
+        if (share == null) {
+            throw new IllegalArgumentException("参数非法！该分享不存在！");
+        }
+        if (!Objects.equals("NOT_YET", share.getAuditStatus())) {
+            throw new IllegalArgumentException("参数非法！该分享已审核通过或不通过");
+        }
+
+        // 2.审核资源，将状态设为PASS/REJECT
+        share.setAuditStatus(auditDTO.getAuditStatusEnum().toString());
+        this.shareMapper.updateByPrimaryKey(share);
+
+        // 3.如果是PASS，为发布人添加积分
+        // 异步执行
+        // userCenterFeignClient.addBonus(id, 500);
+        return share;
     }
 }
