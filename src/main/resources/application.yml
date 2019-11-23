@@ -107,3 +107,8 @@ resttemplate:
   sentinel:
     # 关闭@SentinelRestTemplate注解
     enabled: true
+rocketmq:
+  name-server: 117.50.105.135:9876
+  producer:
+    # 必须指定group
+    group: test-group

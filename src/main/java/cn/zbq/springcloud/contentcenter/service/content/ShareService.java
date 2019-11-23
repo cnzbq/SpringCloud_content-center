@@ -3,11 +3,13 @@ package cn.zbq.springcloud.contentcenter.service.content;
 import cn.zbq.springcloud.contentcenter.dao.content.ShareMapper;
 import cn.zbq.springcloud.contentcenter.domain.dto.content.ShareAuditDTO;
 import cn.zbq.springcloud.contentcenter.domain.dto.content.ShareDTO;
+import cn.zbq.springcloud.contentcenter.domain.dto.message.UserAddBonusMagDTO;
 import cn.zbq.springcloud.contentcenter.domain.dto.user.UserDTO;
 import cn.zbq.springcloud.contentcenter.domain.entity.content.Share;
 import cn.zbq.springcloud.contentcenter.feignclient.UserCenterFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -28,6 +30,7 @@ import java.util.Objects;
 public class ShareService {
     private final ShareMapper shareMapper;
     private final UserCenterFeignClient userCenterFeignClient;
+    private final RocketMQTemplate rocketMQTemplate;
 
     /**
      * 通过id查询分享详情
@@ -73,9 +76,14 @@ public class ShareService {
         share.setAuditStatus(auditDTO.getAuditStatusEnum().toString());
         this.shareMapper.updateByPrimaryKey(share);
 
-        // 3.如果是PASS，为发布人添加积分
-        // 异步执行
-        // userCenterFeignClient.addBonus(id, 500);
+        // 3.如果是PASS，那么发送消息给rocketmq，让用户中心去消费，并为发布人添加积分
+        // 目标（destination）：topic
+        // 消息提（payload）：
+        this.rocketMQTemplate.convertAndSend("add-bonus",
+                UserAddBonusMagDTO.builder()
+                        .userId(share.getUserId())
+                        .bonus(50)
+                        .build());
         return share;
     }
 }

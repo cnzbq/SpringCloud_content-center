@@ -103,6 +103,13 @@
             <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>-->
 
+        <!-- rocket mq 依赖 -->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>2.0.3</version>
+        </dependency>
+
     </dependencies>
 
     <build>
