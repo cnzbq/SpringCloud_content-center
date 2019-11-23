@@ -88,26 +88,32 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <!-- 与控制台通讯包 -->
-<!--        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-transport-simple-http</artifactId>
-        </dependency>-->
+        <!--        <dependency>
+                    <groupId>com.alibaba.csp</groupId>
+                    <artifactId>sentinel-transport-simple-http</artifactId>
+                </dependency>-->
         <!-- 规则持久化 拉（pull）模式 -->
-<!--        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-datasource-extension</artifactId>
-        </dependency>-->
+        <!--        <dependency>
+                    <groupId>com.alibaba.csp</groupId>
+                    <artifactId>sentinel-datasource-extension</artifactId>
+                </dependency>-->
         <!-- 规则持久化 推（push）模式-->
-<!--        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-datasource-nacos</artifactId>
-        </dependency>-->
+        <!--        <dependency>
+                    <groupId>com.alibaba.csp</groupId>
+                    <artifactId>sentinel-datasource-nacos</artifactId>
+                </dependency>-->
 
         <!-- rocket mq 依赖 -->
         <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-spring-boot-starter</artifactId>
             <version>2.0.3</version>
+        </dependency>
+
+        <!-- spring cloud stream 依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
         </dependency>
 
     </dependencies>

@@ -26,7 +26,15 @@ spring:
       transport:
         # 指定sentinel控制台的地址
         dashboard: localhost:8080
-#      datasource:
+    stream:
+      rocketmq:
+        binder:
+          name-server: 117.50.105.135:9876
+      bindings:
+        output:
+          # 用来指定topic
+          destination: stream-test-topic
+  #      datasource:
 #        # 名称随意
 #        flow:
 #          nacos:
@@ -82,6 +90,7 @@ logging:
   level:
     cn.zbq.springcloud.contentcenter.feignclient.UserCenterFeignClient: debug
     cn.zbq.springcloud.contentcenter.feignclient.TestBaiduFeignClient: debug
+    com.alibaba.nacos: error
 feign:
   sentinel:
     # 为feign 整合sentinel

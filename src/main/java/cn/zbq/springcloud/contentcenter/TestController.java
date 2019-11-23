@@ -21,6 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -182,5 +184,19 @@ public class TestController {
     @GetMapping("/test-rest-template-sentinel/{userId}")
     public UserDTO test(@PathVariable Integer userId) {
         return this.restTemplate.getForObject("http://user-center/users/{userId}", UserDTO.class, userId);
+    }
+
+    @Autowired
+    private Source source;
+
+    @GetMapping("/test-stream")
+    public String testStream() {
+        this.source.output()
+                .send(
+                        MessageBuilder
+                                .withPayload("消息体")
+                                .build()
+                );
+        return "success";
     }
 }
