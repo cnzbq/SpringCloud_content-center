@@ -5,6 +5,7 @@ import cn.zbq.springcloud.contentcenter.domain.dto.user.UserDTO;
 import cn.zbq.springcloud.contentcenter.domain.entity.content.Share;
 import cn.zbq.springcloud.contentcenter.feignclient.TestBaiduFeignClient;
 import cn.zbq.springcloud.contentcenter.feignclient.TestUserCenterFeignClient;
+import cn.zbq.springcloud.contentcenter.rocketmq.MySource;
 import cn.zbq.springcloud.contentcenter.sentineltest.TestControllerBlockHandlerClass;
 import cn.zbq.springcloud.contentcenter.sentineltest.TestControllerFallbackHandlerClass;
 import com.alibaba.csp.sentinel.Entry;
@@ -192,6 +193,20 @@ public class TestController {
     @GetMapping("/test-stream")
     public String testStream() {
         this.source.output()
+                .send(
+                        MessageBuilder
+                                .withPayload("消息体")
+                                .build()
+                );
+        return "success";
+    }
+
+    @Autowired
+    private MySource mySource;
+
+    @GetMapping("/test-stream-2")
+    public String testStream2() {
+        this.mySource.output()
                 .send(
                         MessageBuilder
                                 .withPayload("消息体")
