@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * 用户增加积分消息dto
  *
@@ -15,7 +17,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserAddBonusMagDTO {
+public class UserAddBonusMagDTO implements Serializable {
+
+    private static final long serialVersionUID = 791605758435025722L;
     /**
      * 为谁增加积分
      */
