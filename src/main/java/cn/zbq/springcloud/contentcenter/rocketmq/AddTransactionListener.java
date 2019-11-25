@@ -4,6 +4,7 @@ import cn.zbq.springcloud.contentcenter.dao.content.RocketmqTransactionLogMapper
 import cn.zbq.springcloud.contentcenter.domain.dto.content.ShareAuditDTO;
 import cn.zbq.springcloud.contentcenter.domain.entity.content.RocketmqTransactionLog;
 import cn.zbq.springcloud.contentcenter.service.content.ShareService;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionListener;
 import org.apache.rocketmq.spring.core.RocketMQLocalTransactionState;
@@ -40,9 +41,11 @@ public class AddTransactionListener implements RocketMQLocalTransactionListener 
         MessageHeaders headers = message.getHeaders();
         String transactionId = (String) headers.get(RocketMQHeaders.TRANSACTION_ID);
         Integer shareId = Integer.valueOf((String) headers.get("share_id"));
+        String dtoStr = (String) headers.get("dto");
+        ShareAuditDTO auditDTO = JSONObject.parseObject(dtoStr, ShareAuditDTO.class);
 
         try {
-            this.shareService.auditByIdWithRocketMqLog(shareId, (ShareAuditDTO) arg, transactionId);
+            this.shareService.auditByIdWithRocketMqLog(shareId, auditDTO, transactionId);
             // 本地事物执行成功，mq执行提交，投递消费者
             return RocketMQLocalTransactionState.COMMIT;
         } catch (Exception e) {

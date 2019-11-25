@@ -10,13 +10,14 @@ import cn.zbq.springcloud.contentcenter.domain.entity.content.RocketmqTransactio
 import cn.zbq.springcloud.contentcenter.domain.entity.content.Share;
 import cn.zbq.springcloud.contentcenter.domain.enums.AuditStatusEnum;
 import cn.zbq.springcloud.contentcenter.feignclient.UserCenterFeignClient;
+import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,7 @@ public class ShareService {
     private final UserCenterFeignClient userCenterFeignClient;
     private final RocketMQTemplate rocketMQTemplate;
     private final RocketmqTransactionLogMapper rocketmqTransactionLogMapper;
+    private final Source source;
 
 
     /**
@@ -85,9 +87,7 @@ public class ShareService {
         if (AuditStatusEnum.PASS.equals(auditDTO.getAuditStatusEnum())) {
             // 发送半消息
             String transactionId = UUID.randomUUID().toString();
-            this.rocketMQTemplate.sendMessageInTransaction(
-                    "tx-add-bonus-group",
-                    "add-bonus",
+            this.source.output().send(
                     MessageBuilder
                             .withPayload(
                                     UserAddBonusMagDTO.builder()
@@ -98,9 +98,8 @@ public class ShareService {
                             // header 也有妙用  AddTransactionListener#executeLocalTransaction
                             .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
                             .setHeader("share_id", id)
-                            .build(),
-                    // arg 有大用处  AddTransactionListener#executeLocalTransaction
-                    auditDTO
+                            .setHeader("dto", JSONObject.toJSONString(auditDTO))
+                            .build()
             );
         } else {
             auditByIdInDB(id, auditDTO);

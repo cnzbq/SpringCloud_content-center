@@ -30,46 +30,15 @@ spring:
       rocketmq:
         binder:
           name-server: 117.50.105.135:9876
+        bindings:
+          output:
+            producer:
+              transactional: true
+              group: tx-add-bonus-group
       bindings:
         output:
           # 用来指定topic
-          destination: stream-test-topic
-        my-output:
-          destination: stream-my-topic
-  #      datasource:
-#        # 名称随意
-#        flow:
-#          nacos:
-#            server-addr: 117.50.105.135:15098
-#            dataId: ${spring.application.name}-flow-rules
-#            groupId: SENTINEL_GROUP
-#            # 规则类型，取值见：
-#            # org.springframework.cloud.alibaba.sentinel.datasource.RuleType
-#            rule-type: flow
-#        degrade:
-#          nacos:
-#            server-addr: 117.50.105.135:15098
-#            dataId: ${spring.application.name}-degrade-rules
-#            groupId: SENTINEL_GROUP
-#            rule-type: degrade
-#        system:
-#          nacos:
-#            server-addr: 117.50.105.135:15098
-#            dataId: ${spring.application.name}-system-rules
-#            groupId: SENTINEL_GROUP
-#            rule-type: system
-#        authority:
-#          nacos:
-#            server-addr: 117.50.105.135:15098
-#            dataId: ${spring.application.name}-authority-rules
-#            groupId: SENTINEL_GROUP
-#            rule-type: authority
-#        param-flow:
-#          nacos:
-#            server-addr: 117.50.105.135:15098
-#            dataId: ${spring.application.name}-param-flow-rules
-#            groupId: SENTINEL_GROUP
-#            rule-type: param-flow
+          destination: add-bonus
   application:
     # 服务名称尽量用中划线“-” ，不要使用下划线“_”，更不要用特殊字符
     name: content-center
@@ -118,8 +87,3 @@ resttemplate:
   sentinel:
     # 关闭@SentinelRestTemplate注解
     enabled: true
-rocketmq:
-  name-server: 117.50.105.135:9876
-  producer:
-    # 必须指定group
-    group: test-group

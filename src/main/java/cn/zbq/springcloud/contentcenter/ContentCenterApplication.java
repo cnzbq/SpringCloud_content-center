@@ -1,7 +1,6 @@
 package cn.zbq.springcloud.contentcenter;
 
 import cn.zbq.springcloud.contentcenter.exception.RestTemplateException;
-import cn.zbq.springcloud.contentcenter.rocketmq.MySource;
 import com.alibaba.cloud.sentinel.annotation.SentinelRestTemplate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +18,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 // 扫描哪些包里面的接口
 @MapperScan("cn.zbq.springcloud.contentcenter.dao.content")
 @EnableFeignClients//(defaultConfiguration = GlobalFeignConfiguration.class)
-@EnableBinding({Source.class, MySource.class})
+@EnableBinding({Source.class})
 @SpringBootApplication
 public class ContentCenterApplication {
 
