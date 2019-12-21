@@ -1,15 +1,18 @@
 package cn.zbq.springcloud.contentcenter.feignclient.fallback;
+/*
 
 import cn.zbq.springcloud.contentcenter.domain.dto.user.UserDTO;
 import cn.zbq.springcloud.contentcenter.feignclient.UserCenterFeignClient;
 import org.springframework.stereotype.Component;
 
+*/
 /**
  * 当被限流或者降级时可以返回这里的默认值(无法获取异常信息)
  *
  * @author Zbq
  * @since 2019/11/16 23:12
- */
+ *//*
+
 @Component
 public class UserCenterFeignClientFallback implements UserCenterFeignClient {
 
@@ -20,3 +23,4 @@ public class UserCenterFeignClientFallback implements UserCenterFeignClient {
         return userDTO;
     }
 }
+*/
