@@ -49,13 +49,13 @@ public class ShareService {
      * @param id id
      * @return share
      */
-    public ShareDTO findById(Integer id, String token) {
+    public ShareDTO findById(Integer id) {
         // 获取分享详情
         Share share = this.shareMapper.selectByPrimaryKey(id);
         // 发布人id
         Integer userId = share.getUserId();
         // 调用用户微服务的 /users/{userId}
-        UserDTO userDTO = this.userCenterFeignClient.findById(userId, token);
+        UserDTO userDTO = this.userCenterFeignClient.findById(userId);
         // 消息的装配
         ShareDTO shareDTO = new ShareDTO();
         BeanUtils.copyProperties(share, shareDTO);

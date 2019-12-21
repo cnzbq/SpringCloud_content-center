@@ -71,6 +71,8 @@ feign:
       # 全局日志级别配置
       default:
         loggerLevel: full
+        requestInterceptors:
+          - cn.zbq.springcloud.contentcenter.interceptor.TokenRelayRequestInterceptor
   httpclient:
     # 让feign使用apache httpclient做请求，而不是默认的url connection
     enabled: true
