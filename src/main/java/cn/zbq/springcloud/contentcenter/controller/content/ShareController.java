@@ -1,5 +1,6 @@
 package cn.zbq.springcloud.contentcenter.controller.content;
 
+import cn.zbq.springcloud.contentcenter.auth.LoginCheck;
 import cn.zbq.springcloud.contentcenter.domain.dto.content.ShareDTO;
 import cn.zbq.springcloud.contentcenter.service.content.ShareService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class ShareController {
     @Autowired
     private ShareService shareService;
 
+    @LoginCheck
     @RequestMapping("/{id}")
     public ShareDTO findById(@PathVariable Integer id) {
         return this.shareService.findById(id);
