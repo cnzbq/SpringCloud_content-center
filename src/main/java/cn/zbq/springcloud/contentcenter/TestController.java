@@ -193,16 +193,26 @@ public class TestController {
 
     @GetMapping("/tokenRelay/{userId}")
     public ResponseEntity<UserDTO> tokenRelay(@PathVariable Integer userId) {
+        // 静态方式获取request，然后从request请求中拿到token
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
         String token = attributes.getRequest().getHeader("X-Token");
+
+        // 新建header，设置token参数
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Token", token);
+
+        // 发送请求
         return this.restTemplate.exchange(
+                // 请求url
                 "http://user-center/users/{userId}",
+                // 请求方法 get 、post 等
                 HttpMethod.GET,
+                // http 请求体
                 new HttpEntity<>(headers),
+                // 请求响应实体
                 UserDTO.class,
+                // 请求参数
                 userId
         );
     }
