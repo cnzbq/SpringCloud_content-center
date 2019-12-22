@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 import tk.mybatis.spring.annotation.MapperScan;
 
+import java.util.Collections;
+
 /**
  * @author zbq
  */
@@ -41,7 +43,17 @@ public class ContentCenterApplication {
             fallback = "fallback")
     @LoadBalanced
     public RestTemplate restTemplate() {
-        return new RestTemplate();
+
+        RestTemplate template = new RestTemplate();
+        // 设置自定义的拦截器
+        template.setInterceptors(
+                // 单例list，节省内存开销
+                Collections.singletonList(
+                        new TestRestTemplateTokenRelayIntercept()
+                )
+        );
+
+        return template;
     }
 
 }
