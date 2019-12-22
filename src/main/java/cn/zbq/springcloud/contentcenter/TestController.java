@@ -21,8 +21,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -182,5 +189,21 @@ public class TestController {
     @GetMapping("/test-rest-template-sentinel/{userId}")
     public UserDTO test(@PathVariable Integer userId) {
         return this.restTemplate.getForObject("http://user-center/users/{userId}", UserDTO.class, userId);
+    }
+
+    @GetMapping("/tokenRelay/{userId}")
+    public ResponseEntity<UserDTO> tokenRelay(@PathVariable Integer userId) {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+        String token = attributes.getRequest().getHeader("X-Token");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Token", token);
+        return this.restTemplate.exchange(
+                "http://user-center/users/{userId}",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                UserDTO.class,
+                userId
+        );
     }
 }
