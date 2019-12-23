@@ -1,5 +1,6 @@
 package cn.zbq.springcloud.contentcenter.controller.content;
 
+import cn.zbq.springcloud.contentcenter.auth.CheckAuthorization;
 import cn.zbq.springcloud.contentcenter.domain.dto.content.ShareAuditDTO;
 import cn.zbq.springcloud.contentcenter.domain.entity.content.Share;
 import cn.zbq.springcloud.contentcenter.service.content.ShareService;
@@ -21,6 +22,7 @@ public class ShareAdminController {
     private final ShareService shareService;
 
     @PutMapping("/audit/{id}")
+    @CheckAuthorization("admin")
     public Share auditById(@PathVariable("id") Integer id, @RequestBody ShareAuditDTO auditDTO) {
 
         // TODO 认证和授权
