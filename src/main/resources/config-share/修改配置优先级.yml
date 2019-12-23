@@ -1,0 +1,11 @@
+# 以下配置需要放到远程配置才会生效
+spring:
+  cloud:
+    config:
+      # 是否允许本地配置覆盖远程配置
+      allow-override: true
+      # 是否一切以本地配置为准，默认false
+      override-none: false
+      # 系统环境变量或系统属性才能覆盖远程配置文件的配置
+      # 本地配置文件中配置优先级低于远程配置，默认true
+      override-system-properties: true

@@ -15,6 +15,7 @@ spring:
           - data-id: common2.yaml
             group: DEFAULT_GROUP
             refresh: true
+
   application:
     name: content-center
   profiles:
