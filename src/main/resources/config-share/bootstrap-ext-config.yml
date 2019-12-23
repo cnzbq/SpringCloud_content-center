@@ -2,7 +2,7 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 117.50.105.135:15098
+        server-addr: 127.0.0.1:8848
         file-extension: yaml
         ext-config:
           # 需共享的DataId，yaml后缀不能少，只支持yaml/properties
