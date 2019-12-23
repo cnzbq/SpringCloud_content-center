@@ -11,7 +11,7 @@ spring:
     nacos:
       discovery:
         # 指定nacos server 地址  注意：地址前面不要加协议，直接指定IP/域名就可以了
-        server-addr: 117.50.105.135:15098
+        #server-addr: 117.50.105.135:15098
         # 集群名称
         cluster-name: BJ
         metadata:
