@@ -42,6 +42,13 @@ spring:
   application:
     # 服务名称尽量用中划线“-” ，不要使用下划线“_”，更不要用特殊字符
     name: content-center
+  zipkin:
+    base-url: http://localhost:9411
+  #  discoveryClientEnabled: false   #如果有报nacos异常，spring cloud把上述地址当作服务发现地址的话，可以这样解决
+  sleuth:
+    sampler:
+      # 抽样率，默认0.1 （10%） [只有10%的数据会上报到zipkin，90%的数据会被丢弃]
+      probability: 1.0
   main:
     # 允许同名（feign client 中name同名）
     allow-bean-definition-overriding: true
