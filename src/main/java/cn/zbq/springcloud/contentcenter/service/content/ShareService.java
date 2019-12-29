@@ -33,6 +33,7 @@ import javax.sound.midi.MidiUnavailableException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * 分享服务
@@ -155,14 +156,30 @@ public class ShareService {
         );
     }
 
-    public PageInfo<Share> q(String title, Integer pageNo, Integer pageSize) {
+    public PageInfo<Share> q(String title, Integer pageNo, Integer pageSize, Integer userId) {
 
         // 切入下面不分页的sql，自动拼接成分页的sql
         PageHelper.startPage(pageNo, pageSize);
         // 不分页的sql
         List<Share> shares = this.shareMapper.selectByParam(title);
-
-        return new PageInfo<>(shares);
+        List<Share> shareList;
+        // 1.如果用户未登录，那么downloadUrl全部设为null
+        if (userId == null) {
+            shareList = shares.stream().peek(share -> share.setDownloadUrl(null)).collect(Collectors.toList());
+        }
+        // 2. 如果用户登录了，那么查询一下mid_user_share,如果没有数据，那么这条share的downloadUrl设为null
+        else {
+            shareList = shares.stream().peek(share -> {
+                MidUserShare midUserShare = this.midUserShareMapper.selectOne(MidUserShare.builder()
+                        .shareId(share.getId())
+                        .userId(userId)
+                        .build());
+                if (midUserShare == null) {
+                    share.setDownloadUrl(null);
+                }
+            }).collect(Collectors.toList());
+        }
+        return new PageInfo<>(shareList);
     }
 
     public Share exchangeById(Integer id, HttpServletRequest request) {
