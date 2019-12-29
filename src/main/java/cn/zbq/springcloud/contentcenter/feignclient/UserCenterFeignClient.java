@@ -1,11 +1,14 @@
 package cn.zbq.springcloud.contentcenter.feignclient;
 
+import cn.zbq.springcloud.contentcenter.domain.dto.user.UserAddBonusDTO;
 import cn.zbq.springcloud.contentcenter.domain.dto.user.UserDTO;
 import cn.zbq.springcloud.contentcenter.feignclient.fallback.UserCenterFeignClientFallback;
 import cn.zbq.springcloud.contentcenter.feignclient.fallbackfactory.UserCenterFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * 用户中心feign客户端
@@ -31,4 +34,13 @@ public interface UserCenterFeignClient {
      */
     @GetMapping("/users/{id}")
     UserDTO findById(@PathVariable Integer id);
+
+    /**
+     * 积分修改
+     *
+     * @param userAddBonusDTO 用户积分修改dto
+     * @return 用户信息
+     */
+    @PutMapping("/users/add-bonus")
+    UserDTO addBonus(@RequestBody UserAddBonusDTO userAddBonusDTO);
 }

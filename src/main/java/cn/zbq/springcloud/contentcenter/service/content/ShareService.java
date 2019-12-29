@@ -1,11 +1,14 @@
 package cn.zbq.springcloud.contentcenter.service.content;
 
+import cn.zbq.springcloud.contentcenter.dao.content.MidUserShareMapper;
 import cn.zbq.springcloud.contentcenter.dao.content.RocketmqTransactionLogMapper;
 import cn.zbq.springcloud.contentcenter.dao.content.ShareMapper;
 import cn.zbq.springcloud.contentcenter.domain.dto.content.ShareAuditDTO;
 import cn.zbq.springcloud.contentcenter.domain.dto.content.ShareDTO;
 import cn.zbq.springcloud.contentcenter.domain.dto.message.UserAddBonusMagDTO;
+import cn.zbq.springcloud.contentcenter.domain.dto.user.UserAddBonusDTO;
 import cn.zbq.springcloud.contentcenter.domain.dto.user.UserDTO;
+import cn.zbq.springcloud.contentcenter.domain.entity.content.MidUserShare;
 import cn.zbq.springcloud.contentcenter.domain.entity.content.RocketmqTransactionLog;
 import cn.zbq.springcloud.contentcenter.domain.entity.content.Share;
 import cn.zbq.springcloud.contentcenter.domain.enums.AuditStatusEnum;
@@ -25,6 +28,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.sound.midi.MidiUnavailableException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -44,6 +49,7 @@ public class ShareService {
     private final RocketMQTemplate rocketMQTemplate;
     private final RocketmqTransactionLogMapper rocketmqTransactionLogMapper;
     private final Source source;
+    private final MidUserShareMapper midUserShareMapper;
 
 
     /**
@@ -157,5 +163,47 @@ public class ShareService {
         List<Share> shares = this.shareMapper.selectByParam(title);
 
         return new PageInfo<>(shares);
+    }
+
+    public Share exchangeById(Integer id, HttpServletRequest request) {
+
+        Integer userId = (Integer) request.getAttribute("id");
+
+        // 1.根据id查询share，校验是否存在
+        Share share = this.shareMapper.selectByPrimaryKey(id);
+        if (Objects.isNull(share)) {
+            throw new IllegalArgumentException("该分享不存在");
+        }
+
+        // 如果当前用户已经兑换过该分享，直接返回
+        MidUserShare midUserShare = midUserShareMapper.selectOne(MidUserShare.builder()
+                .userId(userId)
+                .shareId(id)
+                .build());
+        if (Objects.nonNull(midUserShare)) {
+            return share;
+        }
+
+        // 2. 根据当前登陆的用户id，查询积分是否够
+        UserDTO userDTO = this.userCenterFeignClient.findById(userId);
+        int price = share.getPrice();
+        if (price > userDTO.getBonus()) {
+            throw new IllegalArgumentException("用户积分不够用!");
+        }
+
+        // 3. 扣减积分 & 往mid_user_share里插入一条数据
+        this.userCenterFeignClient.addBonus(
+                UserAddBonusDTO.builder()
+                        .userId(userId)
+                        .bonus(-price)
+                        .build()
+        );
+        midUserShareMapper.insert(
+                MidUserShare.builder()
+                        .userId(userId)
+                        .shareId(id)
+                        .build()
+        );
+        return share;
     }
 }

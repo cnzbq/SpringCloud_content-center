@@ -8,6 +8,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 分享控制器
  *
@@ -37,5 +39,11 @@ public class ShareController {
         }
 
         return this.shareService.q(title, pageNo, pageSize);
+    }
+
+    @GetMapping("/exchange/{id}")
+    @LoginCheck
+    public Share exchangeById(@PathVariable Integer id, HttpServletRequest request) {
+        return this.shareService.exchangeById(id,request);
     }
 }
