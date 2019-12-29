@@ -11,6 +11,8 @@ import cn.zbq.springcloud.contentcenter.domain.entity.content.Share;
 import cn.zbq.springcloud.contentcenter.domain.enums.AuditStatusEnum;
 import cn.zbq.springcloud.contentcenter.feignclient.UserCenterFeignClient;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -144,5 +147,15 @@ public class ShareService {
                         .log("审核分享...")
                         .build()
         );
+    }
+
+    public PageInfo<Share> q(String title, Integer pageNo, Integer pageSize) {
+
+        // 切入下面不分页的sql，自动拼接成分页的sql
+        PageHelper.startPage(pageNo, pageSize);
+        // 不分页的sql
+        List<Share> shares = this.shareMapper.selectByParam(title);
+
+        return new PageInfo<>(shares);
     }
 }

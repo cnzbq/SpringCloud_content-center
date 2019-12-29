@@ -21,4 +21,13 @@
     <result column="audit_status" jdbcType="VARCHAR" property="auditStatus" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
   </resultMap>
+    <select id="selectByParam" resultType="cn.zbq.springcloud.contentcenter.domain.entity.content.Share">
+        select * from share
+        <where>
+            <if test="title !=null and title != ''">
+                title like concat('%',#{title},'%')
+            </if>
+            and audit_status ='PASS'
+        </where>
+    </select>
 </mapper>

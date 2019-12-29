@@ -43,7 +43,7 @@ spring:
     # 服务名称尽量用中划线“-” ，不要使用下划线“_”，更不要用特殊字符
     name: content-center
   zipkin:
-    base-url: http://localhost:9411
+    base-url: http://192.168.1.6:9411
   #  discoveryClientEnabled: false   #如果有报nacos异常，spring cloud把上述地址当作服务发现地址的话，可以这样解决
   sleuth:
     sampler:
@@ -68,6 +68,7 @@ logging:
   level:
     cn.zbq.springcloud.contentcenter.feignclient.UserCenterFeignClient: debug
     cn.zbq.springcloud.contentcenter.feignclient.TestBaiduFeignClient: debug
+    cn.zbq.springcloud.contentcenter.dao.content.ShareMapper: debug
     com.alibaba.nacos: error
 feign:
   sentinel:
